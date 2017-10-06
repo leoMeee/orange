@@ -7,8 +7,8 @@ class Router
     public function dispatch()
     {
         $urlArray = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
-        $controller = $urlArray[0] ?? $this->getDefaultController();
-        $action = $urlArray[1] ?? $this->getDefaultAction();
+        $controller = $urlArray[0] ?: $this->getDefaultController();
+        $action = $urlArray[1] ?: $this->getDefaultAction();
         $controller = $this->getController($controller);
         $action = $this->getAction($action);
 

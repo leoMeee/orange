@@ -13,7 +13,6 @@ class Autoload
     private static function load($className)
     {
         $path = ROOT_PATH.'/'.str_replace('\\', '/', $className).'.'.'php';
-
         if (isset(self::$loadCache[$path])) {
             return true;
         }
