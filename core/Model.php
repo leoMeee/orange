@@ -19,19 +19,14 @@ abstract class Model
 
     public function __construct()
     {
-        $dbms = 'mysql';     //数据库类型
-        $host = 'localhost'; //数据库主机名
-        $dbName = 'orange';    //使用的数据库
-        $user = 'root';      //数据库连接用户名
-        $pass = '123456';          //对应的密码
-        $dsn = "$dbms:host=$host;dbname=$dbName";
+        $dsn = $this->getDsn();
 
         if (!$this->con) {
             try {
                 $this->con = new \PDO(
                     $dsn,
-                    $user,
-                    $pass,
+                    Config::get('database.user', 'root'),
+                    Config::get('database.password'),
                     array(\PDO::ATTR_PERSISTENT => true, \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES'utf8';")
                 );
             } catch (\PDOException $e) {
@@ -97,5 +92,18 @@ abstract class Model
     protected function getTable()
     {
         return $this->table;
+    }
+
+    /**
+     * @return string
+     */
+    private function getDsn()
+    {
+        $dbms = Config::get('database.dbms', 'mysql');
+        $host = Config::get('database.host', 'localhost');
+        $dbName = Config::get('database.name', '');
+        $dsn = "$dbms:host=$host;dbname=$dbName";
+
+        return $dsn;
     }
 }

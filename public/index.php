@@ -11,7 +11,6 @@ if (DEBUG) {
     ini_set('display_errors', 'On');
 }
 
-
 include_once(CORE_PATH.'Autoload.php');
 
 (new \core\Autoload())->register();

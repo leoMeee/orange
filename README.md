@@ -15,12 +15,17 @@ php framework
     - [x] add
     - [x] find
     - [x] all
-  - [ ] config
+  - [x] config
+    - set config
+    - load config
+    - get config
 
 - [x] 应用目录 app
 - [x] controller目录
 - [ ] composer
-
+- [ ] db query
+- [ ] ORM
+- [ ] Cache
 
 ## bug
 - [ ] 插入数据库中文乱码

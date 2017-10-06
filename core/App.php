@@ -10,6 +10,7 @@ class App
 
     public function run()
     {
+        Config::Load();
         (new Router())->dispatch();
     }
 }

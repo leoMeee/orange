@@ -10,13 +10,13 @@ class Controller
 
     protected function view($path, $params = array())
     {
-        $templatePath = ROOT_PATH.'/template';
-        $path = $templatePath.'/'.ltrim($path, '/').'.php';
+        $templatePath = Config::get('app.template_path', ROOT_PATH.'/template');
+        $path = rtrim($templatePath, '/').'/'.ltrim($path, '/').'.php';
 
         if (file_exists($path)) {
             extract($params);
 
-             include($path);
+            include($path);
         } else {
             throw  new \Exception($path.' 不存在!');
         }
