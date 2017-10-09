@@ -1,4 +1,5 @@
 <?php
+
 namespace core;
 
 class App
@@ -10,6 +11,11 @@ class App
 
     public function run()
     {
+        if (DEBUG) {
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+            $whoops->register();
+        }
         Config::Load();
         (new Router())->dispatch();
     }

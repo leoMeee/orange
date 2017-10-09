@@ -22,7 +22,10 @@ php framework
 
 - [x] 应用目录 app
 - [x] controller目录
-- [ ] composer
+- [x] composer
+   - [x] var-dumper
+   - [x] whoops
+   - [ ] dot_env
 - [ ] db query
 - [ ] ORM
 - [ ] Cache
