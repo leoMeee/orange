@@ -19,15 +19,9 @@ class Autoload
         if (file_exists($path)) {
             include_once($path);
             self::$loadCache[] = $path;
-        } else {
-            self::classNotExists($className);
         }
 
         return true;
     }
 
-    private static function classNotExists($className)
-    {
-        throw new \Exception('class `'.$className.'` 不存在!');
-    }
 }

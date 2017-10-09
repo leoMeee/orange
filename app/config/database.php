@@ -6,5 +6,5 @@ return [
     'host' => 'localhost',
     'name' => 'orange',
     'user' => 'root',
-    'password' => '123456',
+    'password' => '',
 ];
