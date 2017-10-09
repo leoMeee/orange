@@ -1,0 +1,15 @@
+{
+    "name": "wanglei/orange",
+    "description": "a php framework",
+    "type": "framework",
+    "authors": [
+        {
+            "name": "leomeee",
+            "email": "wanglei3@dangegongyu.com"
+        }
+    ],
+    "require": {
+        "filp/whoops": "^2.1",
+        "symfony/var-dumper": "^3.3"
+    }
+}
