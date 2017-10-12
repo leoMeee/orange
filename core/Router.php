@@ -1,4 +1,5 @@
 <?php
+
 namespace core;
 
 
@@ -8,7 +9,7 @@ class Router
     {
         $urlArray = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
         $controller = $urlArray[0] ?: $this->getDefaultController();
-        $action = $urlArray[1] ?: $this->getDefaultAction();
+        $action = $urlArray[1] ?? $this->getDefaultAction();
         $controller = $this->getController($controller);
         $action = $this->getAction($action);
 
@@ -20,7 +21,7 @@ class Router
         $controller = ucwords(strtolower($controller));
         $namespace = 'app\controller';
 
-        return $namespace.'\\'.$controller;
+        return $namespace . '\\' . $controller;
     }
 
     private function getAction($action)
@@ -30,11 +31,11 @@ class Router
 
     private function getDefaultController()
     {
-        return 'Index';
+        return ucfirst(Config::get('app.default_controller'));
     }
 
     private function getDefaultAction()
     {
-        return 'index';
+        return Config::get('app.default_action');
     }
 }
