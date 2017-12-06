@@ -26,7 +26,16 @@ php framework
    - [x] var-dumper
    - [x] whoops
    - [ ] dot_env
-- [ ] db query
+   - [x] Medoo
+   - [ ] twig
+- [x] db query
+    - [x] select
+    - [x] insert
+    - [x] update
+    - [x] delete
+    - [ ] limit
+    - [ ] join
+    - [ ] 复杂的查询条件
 - [ ] ORM
 - [ ] Cache
 
