@@ -15,6 +15,7 @@ class Home extends Controller
         $model = new Comment();
         $comment = Db::table($model->getTable());
         $result = $comment->select();
+
         $title = 'Home';
         $this->view('home/site', compact('title', 'result'));
     }

@@ -11,14 +11,10 @@ php framework
   - [x] 路由转发
   - [x] 模板
   - [x] model
-    - [ ] update
-    - [x] add
-    - [x] find
-    - [x] all
   - [x] config
-    - set config
-    - load config
-    - get config
+    - [x] set config
+    - [x] load config
+    - [x] get config
 
 - [x] 应用目录 app
 - [x] controller目录
@@ -33,9 +29,17 @@ php framework
     - [x] insert
     - [x] update
     - [x] delete
+    - [x] get
+    - [x] count
     - [ ] limit
+    - [ ] order
     - [ ] join
-    - [ ] 复杂的查询条件
+    - [x] 事务
+    - [ ] 复杂查询
+        - [ ] in 或 not in
+        - [ ] like
+        - [ ] 大于 或 小于
+        - [ ] between
 - [ ] ORM
 - [ ] Cache
 

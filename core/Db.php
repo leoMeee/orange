@@ -19,17 +19,45 @@ class Db
         $this->connection = DbConnection::instance();
     }
 
+    /**
+     * Set the query table name
+     * @param $table
+     * @return Db
+     */
     public static function table($table)
     {
         return new self($table);
     }
 
-    public function select(array $columns = [], array $where = [])
+    /**
+     * Get only one record from table
+     * @param array $where
+     * @param array $columns
+     * @return array|bool|mixed
+     */
+    public function get(array $where = [], array $columns = [])
+    {
+        $columns = $columns ?: '*';
+        return $this->connection->get($this->table, $columns, $where);
+    }
+
+    /**
+     * Select data from database
+     * @param array $where
+     * @param array $columns
+     * @return array|bool
+     */
+    public function select(array $where = [], array $columns = [])
     {
         $columns = $columns ?: '*';
         return $this->connection->select($this->table, $columns, $where);
     }
 
+    /**
+     * Insert new records in table
+     * @param array $data
+     * @return bool|int|\PDOStatement|string
+     */
     public function insert(array $data)
     {
         $result = $this->connection->insert($this->table, $data);
@@ -40,6 +68,12 @@ class Db
         return $result;
     }
 
+    /**
+     * Modify data in table
+     * @param array $data
+     * @param array $where
+     * @return bool|int
+     */
     public function update(array $data, array $where)
     {
         $result = $this->connection->update($this->table, $data, $where);
@@ -50,6 +84,11 @@ class Db
         return $result;
     }
 
+    /**
+     * Delete data from table
+     * @param array $where
+     * @return bool|int
+     */
     public function delete(array $where)
     {
         $result = $this->connection->delete($this->table, $where);
@@ -60,6 +99,44 @@ class Db
         return $result;
     }
 
+    /**
+     * Counts the number of rows
+     * @param array $where
+     * @return bool|int
+     */
+    public function count(array $where = [])
+    {
+        return $this->connection->count($this->table, $where);
+    }
+
+    /**
+     * Start transaction
+     */
+    public function beginTransaction()
+    {
+        $this->connection->pdo->beginTransaction();
+    }
+
+    /**
+     * Commit transaction
+     */
+    public function commit()
+    {
+        $this->connection->pdo->commit();
+    }
+
+    /**
+     * Rollback transaction
+     */
+    public function rollBack()
+    {
+        $this->connection->pdo->rollBack();
+    }
+
+    /**
+     * Output the generated SQL without execute it.
+     * @return $this
+     */
     public function debug()
     {
         $this->connection->debug();
@@ -68,11 +145,37 @@ class Db
         return $this;
     }
 
+    /**
+     * Return error information associated with the last operation
+     * @return null
+     */
     public function error()
     {
         return $this->connection->error();
     }
 
+    /**
+     * Get information about the connected database
+     * @return array
+     */
+    public function info()
+    {
+        return $this->connection->info();
+    }
+
+    /**
+     * Return the all executed queries
+     * @return array
+     */
+    public function queryLog()
+    {
+        return $this->connection->log();
+    }
+
+    /**
+     * Returns the ID of the last inserted row
+     * @return int|string
+     */
     public function getLastInsertId()
     {
         return $this->connection->id();
