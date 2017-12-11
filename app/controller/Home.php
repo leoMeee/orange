@@ -14,7 +14,7 @@ class Home extends Controller
     {
         $model = new Comment();
         $comment = Db::table($model->getTable());
-        $result = $comment->select();
+        $result = $comment->limit(15,3)->select();
 
         $title = 'Home';
         $this->view('home/site', compact('title', 'result'));

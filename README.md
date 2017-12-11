@@ -24,7 +24,7 @@ php framework
       - [x] delete
       - [x] get
       - [x] count
-      - [ ] limit
+      - [x] limit
       - [ ] order
       - [ ] join
       - [x] 事务

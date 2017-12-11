@@ -13,6 +13,8 @@ class Db
 
     private $debug = false;
 
+    private $where = [];
+
     private function __construct($table)
     {
         $this->table = $table;
@@ -43,14 +45,23 @@ class Db
 
     /**
      * Select data from database
-     * @param array $where
      * @param array $columns
      * @return array|bool
      */
-    public function select(array $where = [], array $columns = [])
+    public function select(array $columns = [])
     {
         $columns = $columns ?: '*';
-        return $this->connection->select($this->table, $columns, $where);
+        return $this->connection->select($this->table, $columns, $this->where);
+    }
+
+
+    public function limit(int $start, int $end = null)
+    {
+        if (func_num_args() >= 2) {
+            return $this->setWhere(['LIMIT' => [$start, $end]]);
+        }
+
+        return $this->setWhere(['LIMIT' => $start]);
     }
 
     /**
@@ -131,6 +142,14 @@ class Db
     public function rollBack()
     {
         $this->connection->pdo->rollBack();
+    }
+
+    private function setWhere(array $where)
+    {
+        if (!empty($where)) {
+            $this->where = array_merge($this->where, $where);
+        }
+        return $this;
     }
 
     /**
