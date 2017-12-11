@@ -25,7 +25,7 @@ php framework
       - [x] get
       - [x] count
       - [x] limit
-      - [ ] order
+      - [x] order
       - [ ] join
       - [x] 事务
       - [ ] 复杂查询

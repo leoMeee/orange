@@ -64,6 +64,14 @@ class Db
         return $this->setWhere(['LIMIT' => $start]);
     }
 
+    public function order(array $order)
+    {
+        array_walk($order, function (&$item) {
+            $item = strtoupper($item);
+        });
+        return $this->setWhere(['ORDER' => $order]);
+    }
+
     /**
      * Insert new records in table
      * @param array $data
