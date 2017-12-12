@@ -15,6 +15,8 @@ class Db
 
     private $where = [];
 
+    private $queryCondition = [];
+
     private function __construct($table)
     {
         $this->table = $table;
@@ -33,14 +35,13 @@ class Db
 
     /**
      * Get only one record from table
-     * @param array $where
      * @param array $columns
      * @return array|bool|mixed
      */
-    public function get(array $where = [], array $columns = [])
+    public function get(array $columns = [])
     {
         $columns = $columns ?: '*';
-        return $this->connection->get($this->table, $columns, $where);
+        return $this->connection->get($this->table, $columns, $this->where);
     }
 
     /**
@@ -70,6 +71,52 @@ class Db
             $item = strtoupper($item);
         });
         return $this->setWhere(['ORDER' => $order]);
+    }
+
+    /**
+     * @param $column
+     * @param $condition
+     * @param null $value
+     * @return Db
+     */
+    public function where($column, $condition, $value = null)
+    {
+        if (func_num_args() <= 2) {
+            $this->queryCondition = array_merge($this->queryCondition, [$column => $condition]);
+        } else {
+            $column = sprintf('%s[%s]', $column, $this->formatCondition($condition));
+
+            $this->queryCondition = array_merge($this->queryCondition, [$column => $value]);
+        }
+
+        return $this->setWhere($this->queryCondition);
+    }
+
+
+    public function whereBetween($column, $start, $end)
+    {
+        $column = sprintf('%s[<>]', $column);
+        $this->queryCondition = array_merge($this->queryCondition, [$column => [$start, $end]]);
+
+        return $this->setWhere($this->queryCondition);
+    }
+
+    public function whereNotBetween($column, $start, $end)
+    {
+        $column = sprintf('%s[><]', $column);
+        $this->queryCondition = array_merge($this->queryCondition, [$column => [$start, $end]]);
+
+        return $this->setWhere($this->queryCondition);
+    }
+
+    public function whereIn($column, array $values)
+    {
+        return $this->where($column, $values);
+    }
+
+    public function whereNotIn($column, array $values)
+    {
+        return $this->where($column, '!=', $values);
     }
 
     /**
@@ -208,4 +255,23 @@ class Db
         return $this->connection->id();
     }
 
+    private function formatCondition($condition)
+    {
+        $condition = trim($condition);
+        $default = [
+            '=' => '=',
+            '!=' => '!',
+            '>' => '>',
+            '<' => '<',
+            '>=' => '>=',
+            '<=' => '<=',
+            'like' => '~',
+            'not like' => '!~',
+        ];
+        if (!array_key_exists($condition, $default)) {
+            throw new \Exception('condition ' . $condition . ' not exists');
+        }
+
+        return $default[$condition];
+    }
 }

@@ -14,7 +14,8 @@ class Home extends Controller
     {
         $model = new Comment();
         $comment = Db::table($model->getTable());
-        $result = $comment->limit(5)->order(['id' => 'desc'])->select();
+        $result = $comment->where('title','天空')->select();
+
         $title = 'Home';
         $this->view('home/site', compact('title', 'result'));
     }

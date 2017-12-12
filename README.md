@@ -28,11 +28,11 @@ php framework
       - [x] order
       - [ ] join
       - [x] 事务
-      - [ ] 复杂查询
-         - [ ] in 或 not in
-         - [ ] like
-         - [ ] 大于 或 小于
-         - [ ] between
+      - [x] 复杂查询
+         - [x] in 或 not in
+         - [x] like
+         - [x] 等于 或 大于 或 小于
+         - [x] between
     - [ ] ORM
 - [ ] Cache
 - [ ] 队列
