@@ -137,12 +137,11 @@ class Db
     /**
      * Modify data in table
      * @param array $data
-     * @param array $where
      * @return bool|int
      */
-    public function update(array $data, array $where)
+    public function update(array $data)
     {
-        $result = $this->connection->update($this->table, $data, $where);
+        $result = $this->connection->update($this->table, $data, $this->where);
         if (!$this->debug) {
             return $result->rowCount();
         }

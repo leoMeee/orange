@@ -29,6 +29,7 @@ php framework
       - [ ] join
       - [x] 事务
       - [x] 复杂查询
+         - [ ] AND | OR
          - [x] in 或 not in
          - [x] like
          - [x] 等于 或 大于 或 小于
@@ -41,12 +42,6 @@ php framework
 - [ ] Helper
 - [ ] 错误处理
 - [ ] 日志
-
-## Todo
- - 数据库复杂查询实现
- - limit 
- - order
- - join
 
 ## bug
 - [ ] 插入数据库中文乱码

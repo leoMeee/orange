@@ -12,11 +12,11 @@ class Home extends Controller
 {
     public function site()
     {
-        $model = new Comment();
-        $comment = Db::table($model->getTable());
-        $result = $comment->where('title','天空')->select();
-
-        $title = 'Home';
-        $this->view('home/site', compact('title', 'result'));
+        $comment = (new Comment())->find(62);
+        $comment->title = '222';
+        $comment->save();
+        dump($comment);
+        exit;
+        $this->view('home/site', compact('title'));
     }
 }
