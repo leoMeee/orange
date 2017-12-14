@@ -9,7 +9,7 @@
 namespace core;
 
 
-abstract class Model
+class Model extends Object
 {
     protected $table;
 
@@ -28,14 +28,20 @@ abstract class Model
         return $this->table;
     }
 
-    protected function setProperties($properties)
+    public function setProperties($properties)
     {
         $this->properties = $properties;
+        $this->setExists(true);
     }
 
-    protected function getProperties()
+    public function getProperties()
     {
         return $this->properties;
+    }
+
+    public function getPk()
+    {
+        return $this->pk;
     }
 
     public function isExists()
@@ -43,24 +49,21 @@ abstract class Model
         return $this->exists;
     }
 
-    public function find($id)
+    public function setExists(bool $value)
     {
-        $result = $this->getQuery()->where($this->pk, $id)->get();
-        if ($result) {
-            $this->setProperties($result);
-            $this->exists = true;
-            return $this;
-        }
-
-        return null;
+        $this->exists = $value;
     }
 
     public function save()
     {
-        if ($this->isExists()) {
-            $result = $this->update();
-        } else {
-            $result = $this->insert();
+        $result = false;
+
+        if (!empty($this->newProperties)) {
+            if ($this->isExists()) {
+                $result = $this->update();
+            } else {
+                $result = $this->insert();
+            }
         }
 
         if ($result) {
@@ -72,31 +75,25 @@ abstract class Model
 
     public function insert()
     {
-        if (!empty($this->newProperties)) {
-            $result = $this->getQuery()->insert($this->newProperties);
-            if ($result) {
-                $newData = $this->getQuery()->where($this->pk, $this->getQuery()->getLastInsertId())->get();
-                $this->setProperties($newData);
-                $this->exists = true;
-                return true;
-            }
-            return false;
+        $result = $this->getQuery()->insert($this->newProperties);
+        if ($result) {
+            $newData = $this->getQuery()->where($this->pk, $this->getQuery()->getLastInsertId())->get();
+            $this->setProperties($newData);
+            return true;
         }
+
         return false;
     }
 
     public function update()
     {
-        if (!empty($this->newProperties)) {
-            $result = $this->getQuery()->where($this->pk, $this->getId())->update($this->newProperties);
-
-            if ($result) {
-                $newData = $this->getQuery()->where($this->pk, $this->getId())->get();
-                $this->setProperties($newData);
-                return true;
-            }
-            return false;
+        $result = $this->getQuery()->where($this->pk, $this->getId())->update($this->newProperties);
+        if ($result) {
+            $newData = $this->getQuery()->where($this->pk, $this->getId())->get();
+            $this->setProperties($newData);
+            return true;
         }
+
         return false;
     }
 
@@ -110,16 +107,26 @@ abstract class Model
         $this->newProperties[$name] = $value;
     }
 
+    public static function __callStatic($name, $arguments)
+    {
+        $object = new ModelQuery(new static());
+        if (method_exists($object, $name)) {
+            return call_user_func_array([$object, $name], $arguments);
+        }
+        throw new \Exception('method ' . $name . ' is not exists');
+    }
+
     public function getId()
     {
         return $this->getProperties()[$this->pk] ?? null;
     }
 
-    protected function getQuery()
+    public function getQuery(): Db
     {
         if (!$this->query) {
             $this->query = Db::table($this->table);
         }
         return $this->query;
     }
+
 }

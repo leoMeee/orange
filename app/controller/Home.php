@@ -12,11 +12,9 @@ class Home extends Controller
 {
     public function site()
     {
-        $comment = (new Comment())->find(62);
-        $comment->title = '222';
-        $comment->save();
-        dump($comment);
-        exit;
-        $this->view('home/site', compact('title'));
+        $result = Comment::all();
+        dump($result);exit;
+        $title = '评论列表';
+        $this->view('home/site', compact('title', 'result'));
     }
 }
